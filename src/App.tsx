@@ -29,6 +29,7 @@ const App = () => (
           <Route path="/quiz/new" element={<QuizBuilder />} />
           <Route path="/join" element={<JoinGame />} />
           <Route path="/play" element={<PlayGame />} />
+          <Route path="/host" element={<HostGame />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
