@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Zap, LayoutDashboard, FileQuestion, Users, BarChart3,
   Settings, Plus, Play, Clock, TrendingUp, LogOut
@@ -85,7 +86,6 @@ const Dashboard = () => {
               </Button>
             </div>
 
-            {/* Stats cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               <div className="bg-gradient-card rounded-xl border border-border p-6">
                 <div className="flex items-center gap-3 mb-2">
@@ -110,7 +110,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Recent quizzes */}
             <h2 className="font-display text-xl font-semibold mb-4">Vos quiz récents</h2>
             <div className="space-y-3">
               {mockQuizzes.map((quiz) => (
@@ -156,11 +155,9 @@ const Dashboard = () => {
                 >
                   <h3 className="font-display text-lg font-semibold mb-2">{quiz.title}</h3>
                   <p className="text-sm text-muted-foreground mb-4">{quiz.questions} questions</p>
-                  <div className="flex gap-2">
-                    <Button size="sm" className="gap-1 flex-1">
-                      <Play className="w-3 h-3" /> Lancer
-                    </Button>
-                  </div>
+                  <Button size="sm" className="gap-1 w-full">
+                    <Play className="w-3 h-3" /> Lancer
+                  </Button>
                 </div>
               ))}
             </div>
@@ -223,10 +220,7 @@ const Dashboard = () => {
                 <div className="flex items-end gap-2 h-40">
                   {[65, 78, 45, 85, 72, 90, 68].map((val, i) => (
                     <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                      <div
-                        className="w-full rounded-t-md bg-primary/80"
-                        style={{ height: `${val}%` }}
-                      />
+                      <div className="w-full rounded-t-md bg-primary/80" style={{ height: `${val}%` }} />
                       <span className="text-xs text-muted-foreground">Q{i + 1}</span>
                     </div>
                   ))}
@@ -237,10 +231,7 @@ const Dashboard = () => {
                 <div className="flex items-end gap-2 h-40">
                   {[12, 15, 8, 20, 18, 25, 22].map((val, i) => (
                     <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                      <div
-                        className="w-full rounded-t-md bg-game-blue/80"
-                        style={{ height: `${(val / 25) * 100}%` }}
-                      />
+                      <div className="w-full rounded-t-md bg-game-blue/80" style={{ height: `${(val / 25) * 100}%` }} />
                       <span className="text-xs text-muted-foreground">S{i + 1}</span>
                     </div>
                   ))}
@@ -270,8 +261,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
-// Need to import Input at the top for settings tab
-import { Input } from "@/components/ui/input";
 
 export default Dashboard;
