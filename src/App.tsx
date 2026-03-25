@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import QuizBuilder from "./pages/QuizBuilder.tsx";
 import JoinGame from "./pages/JoinGame.tsx";
 import PlayGame from "./pages/PlayGame.tsx";
+import HostGame from "./pages/HostGame.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
