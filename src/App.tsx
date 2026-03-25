@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import QuizBuilder from "./pages/QuizBuilder.tsx";
 import JoinGame from "./pages/JoinGame.tsx";
 import PlayGame from "./pages/PlayGame.tsx";
+import HostGame from "./pages/HostGame.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/quiz/new" element={<QuizBuilder />} />
           <Route path="/join" element={<JoinGame />} />
           <Route path="/play" element={<PlayGame />} />
+          <Route path="/host" element={<HostGame />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
