@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Zap, LayoutDashboard, FileQuestion, Users, BarChart3,
-  Settings, Plus, Play, Clock, TrendingUp, LogOut
+  Settings, Plus, Play, Clock, TrendingUp, LogOut, Monitor,
+  Pencil, Presentation
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -96,14 +97,14 @@ const Dashboard = () => {
               </div>
               <div className="bg-gradient-card rounded-xl border border-border p-6">
                 <div className="flex items-center gap-3 mb-2">
-                  <Play className="w-5 h-5 text-game-blue" />
+                  <Play className="w-5 h-5 text-[hsl(var(--game-blue))]" />
                   <span className="text-sm text-muted-foreground">Sessions jouées</span>
                 </div>
                 <p className="font-display text-3xl font-bold">20</p>
               </div>
               <div className="bg-gradient-card rounded-xl border border-border p-6">
                 <div className="flex items-center gap-3 mb-2">
-                  <TrendingUp className="w-5 h-5 text-game-green" />
+                  <TrendingUp className="w-5 h-5 text-primary" />
                   <span className="text-sm text-muted-foreground">Score moyen</span>
                 </div>
                 <p className="font-display text-3xl font-bold">75%</p>
@@ -115,8 +116,7 @@ const Dashboard = () => {
               {mockQuizzes.map((quiz) => (
                 <div
                   key={quiz.id}
-                  className="bg-gradient-card rounded-xl border border-border p-5 flex items-center justify-between hover:border-primary/30 transition-colors cursor-pointer"
-                  onClick={() => navigate("/quiz/new")}
+                  className="bg-gradient-card rounded-xl border border-border p-5 flex items-center justify-between hover:border-primary/30 transition-colors"
                 >
                   <div>
                     <h3 className="font-display font-semibold">{quiz.title}</h3>
@@ -125,13 +125,20 @@ const Dashboard = () => {
                     </p>
                   </div>
                   <div className="flex gap-2">
-                    <Button size="sm" variant="outline" className="gap-1">
+                    <Button size="sm" variant="outline" className="gap-1.5" onClick={() => navigate("/quiz/new")}>
+                      <Pencil className="w-3 h-3" /> Modifier
+                    </Button>
+                    <Button size="sm" variant="outline" className="gap-1.5" onClick={() => navigate("/host")}>
                       <Clock className="w-3 h-3" /> Historique
                     </Button>
-                    <Button size="sm" variant="outline" className="gap-1" onClick={(e) => { e.stopPropagation(); navigate("/host"); }}>
-                      <Users className="w-3 h-3" /> Animer
+                    <Button
+                      size="sm"
+                      className="gap-1.5 bg-secondary hover:bg-secondary/80 text-secondary-foreground"
+                      onClick={() => navigate("/host")}
+                    >
+                      <Presentation className="w-3 h-3" /> Animer
                     </Button>
-                    <Button size="sm" className="gap-1" onClick={(e) => { e.stopPropagation(); navigate("/play"); }}>
+                    <Button size="sm" className="gap-1.5" onClick={() => navigate("/play")}>
                       <Play className="w-3 h-3" /> Lancer
                     </Button>
                   </div>
@@ -153,18 +160,56 @@ const Dashboard = () => {
               {mockQuizzes.map((quiz) => (
                 <div
                   key={quiz.id}
-                  className="bg-gradient-card rounded-xl border border-border p-6 hover:border-primary/30 transition-colors cursor-pointer"
-                  onClick={() => navigate("/quiz/new")}
+                  className="bg-gradient-card rounded-xl border border-border p-6 hover:border-primary/30 transition-colors group"
                 >
-                  <h3 className="font-display text-lg font-semibold mb-2">{quiz.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">{quiz.questions} questions</p>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline" className="gap-1 flex-1" onClick={(e) => { e.stopPropagation(); navigate("/host"); }}>
-                      <Users className="w-3 h-3" /> Animer
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="font-display text-lg font-semibold">{quiz.title}</h3>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={() => navigate("/quiz/new")}
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
                     </Button>
-                    <Button size="sm" className="gap-1 flex-1" onClick={(e) => { e.stopPropagation(); navigate("/play"); }}>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-1">{quiz.questions} questions</p>
+                  <p className="text-xs text-muted-foreground mb-4">
+                    {quiz.played} sessions · Score moy. {quiz.avgScore}%
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="gap-1.5 flex-1"
+                      onClick={() => navigate("/quiz/new")}
+                    >
+                      <Pencil className="w-3 h-3" /> Modifier
+                    </Button>
+                  </div>
+                  <div className="flex gap-2 mt-2">
+                    <Button
+                      size="sm"
+                      className="gap-1.5 flex-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground"
+                      onClick={() => navigate("/host")}
+                    >
+                      <Presentation className="w-3 h-3" /> Animer
+                    </Button>
+                    <Button size="sm" className="gap-1.5 flex-1" onClick={() => navigate("/play")}>
                       <Play className="w-3 h-3" /> Lancer
                     </Button>
+                  </div>
+
+                  {/* Tooltip explanation */}
+                  <div className="mt-3 pt-3 border-t border-border space-y-1">
+                    <p className="text-[10px] text-muted-foreground flex items-center gap-1.5">
+                      <Presentation className="w-2.5 h-2.5 text-secondary" />
+                      <span><strong>Animer</strong> — Projeter sur grand écran, contrôler le déroulement</span>
+                    </p>
+                    <p className="text-[10px] text-muted-foreground flex items-center gap-1.5">
+                      <Play className="w-2.5 h-2.5 text-primary" />
+                      <span><strong>Lancer</strong> — Démarrer une session, les joueurs rejoignent via PIN</span>
+                    </p>
                   </div>
                 </div>
               ))}
@@ -239,7 +284,7 @@ const Dashboard = () => {
                 <div className="flex items-end gap-2 h-40">
                   {[12, 15, 8, 20, 18, 25, 22].map((val, i) => (
                     <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                      <div className="w-full rounded-t-md bg-game-blue/80" style={{ height: `${(val / 25) * 100}%` }} />
+                      <div className="w-full rounded-t-md bg-[hsl(var(--game-blue))]/80" style={{ height: `${(val / 25) * 100}%` }} />
                       <span className="text-xs text-muted-foreground">S{i + 1}</span>
                     </div>
                   ))}
