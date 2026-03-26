@@ -3,21 +3,74 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Zap, Gamepad2, Trophy, Clock, Star, LogOut,
-  History, ArrowRight, Medal, TrendingUp
+  History, ArrowRight, Medal, TrendingUp, ChevronLeft,
+  CheckCircle2, XCircle, Eye
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-const mockHistory = [
-  { id: 1, title: "Sécurité informatique", date: "2026-03-25", score: 850, rank: 2, total: 12, correct: 10 },
-  { id: 2, title: "Onboarding RH", date: "2026-03-22", score: 1200, rank: 1, total: 8, correct: 8 },
-  { id: 3, title: "Culture d'entreprise", date: "2026-03-18", score: 620, rank: 5, total: 15, correct: 9 },
-  { id: 4, title: "Cybersécurité avancée", date: "2026-03-10", score: 400, rank: 8, total: 10, correct: 5 },
+interface QuizQuestion {
+  question: string;
+  type: "mcq" | "truefalse";
+  options: string[];
+  correctIndex: number;
+  playerAnswer: number;
+  timeSpent: number;
+  timeLimit: number;
+  points: number;
+  earnedPoints: number;
+}
+
+interface GameHistory {
+  id: number;
+  title: string;
+  date: string;
+  score: number;
+  rank: number;
+  total: number;
+  correct: number;
+  questions: QuizQuestion[];
+}
+
+const mockHistory: GameHistory[] = [
+  {
+    id: 1, title: "Sécurité informatique", date: "2026-03-25", score: 850, rank: 2, total: 12, correct: 10,
+    questions: [
+      { question: "Quel est le protocole sécurisé pour naviguer sur le web ?", type: "mcq", options: ["HTTP", "HTTPS", "FTP", "SMTP"], correctIndex: 1, playerAnswer: 1, timeSpent: 8, timeLimit: 20, points: 100, earnedPoints: 100 },
+      { question: "Un mot de passe fort doit contenir au moins 8 caractères.", type: "truefalse", options: ["Vrai", "Faux"], correctIndex: 0, playerAnswer: 0, timeSpent: 4, timeLimit: 10, points: 50, earnedPoints: 50 },
+      { question: "Quel type d'attaque consiste à envoyer des emails frauduleux ?", type: "mcq", options: ["DDoS", "Phishing", "Brute force", "SQL Injection"], correctIndex: 1, playerAnswer: 1, timeSpent: 12, timeLimit: 20, points: 100, earnedPoints: 80 },
+      { question: "Qu'est-ce qu'un pare-feu (firewall) ?", type: "mcq", options: ["Un antivirus", "Un filtre réseau", "Un VPN", "Un proxy"], correctIndex: 1, playerAnswer: 2, timeSpent: 18, timeLimit: 20, points: 100, earnedPoints: 0 },
+      { question: "Le chiffrement AES est symétrique.", type: "truefalse", options: ["Vrai", "Faux"], correctIndex: 0, playerAnswer: 0, timeSpent: 3, timeLimit: 10, points: 50, earnedPoints: 50 },
+    ],
+  },
+  {
+    id: 2, title: "Onboarding RH", date: "2026-03-22", score: 1200, rank: 1, total: 8, correct: 8,
+    questions: [
+      { question: "Combien de jours dure la période d'essai pour un CDI cadre ?", type: "mcq", options: ["2 mois", "3 mois", "4 mois", "6 mois"], correctIndex: 2, playerAnswer: 2, timeSpent: 10, timeLimit: 20, points: 100, earnedPoints: 100 },
+      { question: "Le CSE est obligatoire dans les entreprises de plus de 11 salariés.", type: "truefalse", options: ["Vrai", "Faux"], correctIndex: 0, playerAnswer: 0, timeSpent: 5, timeLimit: 10, points: 50, earnedPoints: 50 },
+      { question: "Quel document est remis obligatoirement à l'embauche ?", type: "mcq", options: ["Fiche de paie", "Contrat de travail", "Attestation Pôle Emploi", "Certificat de travail"], correctIndex: 1, playerAnswer: 1, timeSpent: 7, timeLimit: 20, points: 100, earnedPoints: 100 },
+    ],
+  },
+  {
+    id: 3, title: "Culture d'entreprise", date: "2026-03-18", score: 620, rank: 5, total: 15, correct: 9,
+    questions: [
+      { question: "En quelle année a été fondée Acme Corp ?", type: "mcq", options: ["2005", "2010", "2015", "2020"], correctIndex: 1, playerAnswer: 2, timeSpent: 15, timeLimit: 20, points: 100, earnedPoints: 0 },
+      { question: "Acme Corp compte plus de 500 employés.", type: "truefalse", options: ["Vrai", "Faux"], correctIndex: 1, playerAnswer: 1, timeSpent: 6, timeLimit: 10, points: 50, earnedPoints: 50 },
+    ],
+  },
+  {
+    id: 4, title: "Cybersécurité avancée", date: "2026-03-10", score: 400, rank: 8, total: 10, correct: 5,
+    questions: [
+      { question: "Qu'est-ce qu'une attaque zero-day ?", type: "mcq", options: ["Attaque le jour 0", "Exploit d'une faille inconnue", "Reset du système", "Suppression de données"], correctIndex: 1, playerAnswer: 0, timeSpent: 20, timeLimit: 20, points: 100, earnedPoints: 0 },
+      { question: "RSA est un algorithme de chiffrement asymétrique.", type: "truefalse", options: ["Vrai", "Faux"], correctIndex: 0, playerAnswer: 1, timeSpent: 8, timeLimit: 10, points: 50, earnedPoints: 0 },
+    ],
+  },
 ];
 
 const PlayerHome = () => {
   const navigate = useNavigate();
   const [pin, setPin] = useState("");
+  const [selectedGame, setSelectedGame] = useState<GameHistory | null>(null);
 
   const handleJoin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,9 +86,138 @@ const PlayerHome = () => {
       100
   );
 
+  // Detail view
+  if (selectedGame) {
+    const correctCount = selectedGame.questions.filter((q) => q.playerAnswer === q.correctIndex).length;
+    const totalQ = selectedGame.questions.length;
+
+    return (
+      <div className="min-h-screen bg-background">
+        <header className="border-b border-border bg-card/60 backdrop-blur-md sticky top-0 z-30">
+          <div className="max-w-5xl mx-auto px-4 h-14 flex items-center gap-3">
+            <Button variant="ghost" size="icon" onClick={() => setSelectedGame(null)}>
+              <ChevronLeft className="w-5 h-5" />
+            </Button>
+            <div className="flex-1">
+              <h1 className="font-display font-bold text-sm sm:text-base truncate">{selectedGame.title}</h1>
+              <p className="text-xs text-muted-foreground">
+                {new Date(selectedGame.date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <p className="font-display font-bold">{selectedGame.score} pts</p>
+                <p className="text-xs text-muted-foreground">Rang #{selectedGame.rank}</p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="max-w-3xl mx-auto px-4 py-6 space-y-6">
+          {/* Summary bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex gap-3"
+          >
+            <div className="flex-1 rounded-xl border border-border p-4 text-center" style={{ background: "var(--gradient-card)" }}>
+              <p className="font-display text-2xl font-bold text-primary">{correctCount}</p>
+              <p className="text-xs text-muted-foreground">Correctes</p>
+            </div>
+            <div className="flex-1 rounded-xl border border-border p-4 text-center" style={{ background: "var(--gradient-card)" }}>
+              <p className="font-display text-2xl font-bold text-[hsl(var(--game-red))]">{totalQ - correctCount}</p>
+              <p className="text-xs text-muted-foreground">Incorrectes</p>
+            </div>
+            <div className="flex-1 rounded-xl border border-border p-4 text-center" style={{ background: "var(--gradient-card)" }}>
+              <p className="font-display text-2xl font-bold">{Math.round((correctCount / totalQ) * 100)}%</p>
+              <p className="text-xs text-muted-foreground">Précision</p>
+            </div>
+          </motion.div>
+
+          {/* Questions */}
+          <div className="space-y-4">
+            {selectedGame.questions.map((q, i) => {
+              const isCorrect = q.playerAnswer === q.correctIndex;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="rounded-xl border border-border overflow-hidden"
+                  style={{ background: "var(--gradient-card)" }}
+                >
+                  {/* Question header */}
+                  <div className="p-4 sm:p-5 flex items-start gap-3">
+                    <div
+                      className={`mt-0.5 flex items-center justify-center w-7 h-7 rounded-full shrink-0 text-xs font-bold ${
+                        isCorrect
+                          ? "bg-primary/15 text-primary"
+                          : "bg-[hsl(var(--game-red))]/15 text-[hsl(var(--game-red))]"
+                      }`}
+                    >
+                      {i + 1}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-display font-semibold text-sm sm:text-base">{q.question}</p>
+                      <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {q.timeSpent}s / {q.timeLimit}s
+                        </span>
+                        <span>
+                          {q.earnedPoints}/{q.points} pts
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-muted text-[10px] uppercase tracking-wider">
+                          {q.type === "mcq" ? "QCM" : "Vrai/Faux"}
+                        </span>
+                      </div>
+                    </div>
+                    {isCorrect ? (
+                      <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+                    ) : (
+                      <XCircle className="w-5 h-5 text-[hsl(var(--game-red))] shrink-0" />
+                    )}
+                  </div>
+
+                  {/* Options */}
+                  <div className="px-4 sm:px-5 pb-4 sm:pb-5 grid gap-2" style={{ gridTemplateColumns: q.type === "truefalse" ? "1fr 1fr" : "1fr 1fr" }}>
+                    {q.options.map((opt, oi) => {
+                      const isPlayerChoice = oi === q.playerAnswer;
+                      const isCorrectOption = oi === q.correctIndex;
+                      let classes = "rounded-lg px-3 py-2.5 text-sm border transition-colors ";
+
+                      if (isCorrectOption) {
+                        classes += "border-primary/40 bg-primary/10 text-primary";
+                      } else if (isPlayerChoice && !isCorrect) {
+                        classes += "border-[hsl(var(--game-red))]/40 bg-[hsl(var(--game-red))]/10 text-[hsl(var(--game-red))]";
+                      } else {
+                        classes += "border-border bg-muted/30 text-muted-foreground";
+                      }
+
+                      return (
+                        <div key={oi} className={classes}>
+                          <div className="flex items-center gap-2">
+                            {isCorrectOption && <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />}
+                            {isPlayerChoice && !isCorrect && <XCircle className="w-3.5 h-3.5 shrink-0" />}
+                            <span>{opt}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // Main view
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b border-border bg-card/60 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
@@ -141,8 +323,9 @@ const PlayerHome = () => {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.25 + i * 0.05 }}
-                className="rounded-xl border border-border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-0 justify-between hover:border-primary/30 transition-colors"
+                className="rounded-xl border border-border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-0 justify-between hover:border-primary/30 transition-colors cursor-pointer"
                 style={{ background: "var(--gradient-card)" }}
+                onClick={() => setSelectedGame(game)}
               >
                 <div className="flex-1">
                   <h3 className="font-display font-semibold">{game.title}</h3>
@@ -159,6 +342,14 @@ const PlayerHome = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="gap-1.5 text-xs"
+                    onClick={(e) => { e.stopPropagation(); setSelectedGame(game); }}
+                  >
+                    <Eye className="w-3 h-3" /> Détails
+                  </Button>
                   <div className="text-right">
                     <p className="font-display font-bold text-lg">{game.score}</p>
                     <p className="text-xs text-muted-foreground">points</p>
