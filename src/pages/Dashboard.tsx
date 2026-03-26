@@ -128,7 +128,10 @@ const Dashboard = () => {
                     <Button size="sm" variant="outline" className="gap-1">
                       <Clock className="w-3 h-3" /> Historique
                     </Button>
-                    <Button size="sm" className="gap-1">
+                    <Button size="sm" variant="outline" className="gap-1" onClick={(e) => { e.stopPropagation(); navigate("/host"); }}>
+                      <Users className="w-3 h-3" /> Animer
+                    </Button>
+                    <Button size="sm" className="gap-1" onClick={(e) => { e.stopPropagation(); navigate("/play"); }}>
                       <Play className="w-3 h-3" /> Lancer
                     </Button>
                   </div>
@@ -155,9 +158,14 @@ const Dashboard = () => {
                 >
                   <h3 className="font-display text-lg font-semibold mb-2">{quiz.title}</h3>
                   <p className="text-sm text-muted-foreground mb-4">{quiz.questions} questions</p>
-                  <Button size="sm" className="gap-1 w-full">
-                    <Play className="w-3 h-3" /> Lancer
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" className="gap-1 flex-1" onClick={(e) => { e.stopPropagation(); navigate("/host"); }}>
+                      <Users className="w-3 h-3" /> Animer
+                    </Button>
+                    <Button size="sm" className="gap-1 flex-1" onClick={(e) => { e.stopPropagation(); navigate("/play"); }}>
+                      <Play className="w-3 h-3" /> Lancer
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
