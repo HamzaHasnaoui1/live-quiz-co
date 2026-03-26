@@ -128,7 +128,10 @@ const Dashboard = () => {
                     <Button size="sm" variant="outline" className="gap-1">
                       <Clock className="w-3 h-3" /> Historique
                     </Button>
-                    <Button size="sm" className="gap-1">
+                    <Button size="sm" variant="outline" className="gap-1" onClick={(e) => { e.stopPropagation(); navigate("/host"); }}>
+                      <Users className="w-3 h-3" /> Animer
+                    </Button>
+                    <Button size="sm" className="gap-1" onClick={(e) => { e.stopPropagation(); navigate("/play"); }}>
                       <Play className="w-3 h-3" /> Lancer
                     </Button>
                   </div>
