@@ -31,6 +31,7 @@ const App = () => (
           <Route path="/join" element={<JoinGame />} />
           <Route path="/play" element={<PlayGame />} />
           <Route path="/host" element={<HostGame />} />
+          <Route path="/me" element={<PlayerHome />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
