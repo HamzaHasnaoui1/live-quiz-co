@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import {
   Zap, Gamepad2, Trophy, Clock, Star, LogOut,
   History, ArrowRight, Medal, TrendingUp, ChevronLeft,
-  CheckCircle2, XCircle, Eye
+  CheckCircle2, XCircle, Eye, FileQuestion, Play, UserCheck
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
