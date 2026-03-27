@@ -328,6 +328,13 @@ const Dashboard = () => {
           </motion.div>
         )}
       </main>
+
+      <QuizAssignmentModal
+        open={assignModal.open}
+        onOpenChange={(open) => setAssignModal({ ...assignModal, open })}
+        quizTitle={assignModal.quizTitle}
+        onAssign={handleAssign}
+      />
     </div>
   );
 };

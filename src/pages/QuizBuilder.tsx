@@ -4,10 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Zap, ArrowLeft, Plus, Trash2, GripVertical,
-  CheckCircle2, HelpCircle, BarChart3, Image, Video, X
+  CheckCircle2, HelpCircle, BarChart3, Image, Video, X, UserCheck
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import QuizAssignmentModal, { type AssignmentCriteria } from "@/components/quiz/QuizAssignmentModal";
 
 type QuestionType = "multiple" | "truefalse" | "poll";
 
