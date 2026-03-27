@@ -134,6 +134,9 @@ const Dashboard = () => {
                     <Button size="sm" variant="outline" className="gap-1.5" onClick={() => navigate("/quiz/new")}>
                       <Pencil className="w-3 h-3" /> Modifier
                     </Button>
+                    <Button size="sm" variant="outline" className="gap-1.5" onClick={() => setAssignModal({ open: true, quizTitle: quiz.title })}>
+                      <UserCheck className="w-3 h-3" /> Affecter
+                    </Button>
                     <Button size="sm" variant="outline" className="gap-1.5" onClick={() => navigate("/host")}>
                       <Clock className="w-3 h-3" /> Historique
                     </Button>
