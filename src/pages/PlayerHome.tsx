@@ -306,6 +306,67 @@ const PlayerHome = () => {
           ))}
         </motion.section>
 
+        {/* Assigned Quizzes */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+        >
+          <div className="flex items-center gap-2 mb-4">
+            <UserCheck className="w-5 h-5 text-primary" />
+            <h2 className="font-display text-xl font-semibold">Quiz qui vous sont affectés</h2>
+          </div>
+          <div className="space-y-3">
+            {[
+              { id: 101, title: "Règles d'arbitrage 2026", questions: 15, deadline: "2026-04-05", assignedBy: "Jean Dupont", criteria: "Arbitre · Promo 2024" },
+              { id: 102, title: "Protocole VAR", questions: 10, deadline: "2026-04-10", assignedBy: "Jean Dupont", criteria: "Arbitre Assistant" },
+              { id: 103, title: "Évaluation annuelle", questions: 20, deadline: "2026-03-30", assignedBy: "Marie Martin", criteria: "Tous les rôles" },
+            ].map((quiz, i) => {
+              const isUrgent = new Date(quiz.deadline) <= new Date(Date.now() + 3 * 86400000);
+              return (
+                <motion.div
+                  key={quiz.id}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 + i * 0.05 }}
+                  className={`rounded-xl border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-0 justify-between transition-colors ${
+                    isUrgent ? "border-[hsl(var(--game-orange))]/40 bg-[hsl(var(--game-orange))]/5" : "border-border"
+                  }`}
+                  style={!isUrgent ? { background: "var(--gradient-card)" } : undefined}
+                >
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <FileQuestion className="w-4 h-4 text-primary" />
+                      <h3 className="font-display font-semibold">{quiz.title}</h3>
+                      {isUrgent && (
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase bg-[hsl(var(--game-orange))]/20 text-[hsl(var(--game-orange))]">
+                          Urgent
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1 text-sm text-muted-foreground">
+                      <span>{quiz.questions} questions</span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        Avant le {new Date(quiz.deadline).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}
+                      </span>
+                      <span className="text-xs">Affecté par {quiz.assignedBy}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1 italic">Critères : {quiz.criteria}</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    className="gap-1.5 shadow-glow-primary shrink-0"
+                    onClick={() => navigate("/join")}
+                  >
+                    <Play className="w-3 h-3" /> Commencer
+                  </Button>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.section>
+
         {/* History */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
