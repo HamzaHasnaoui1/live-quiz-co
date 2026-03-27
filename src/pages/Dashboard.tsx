@@ -27,6 +27,11 @@ const mockQuizzes = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [assignModal, setAssignModal] = useState<{ open: boolean; quizTitle: string }>({ open: false, quizTitle: "" });
+
+  const handleAssign = (criteria: AssignmentCriteria) => {
+    console.log("Quiz assigned with criteria:", criteria);
+  };
 
   return (
     <div className="min-h-screen flex">
