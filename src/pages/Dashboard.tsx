@@ -4,10 +4,11 @@ import { Input } from "@/components/ui/input";
 import {
   Zap, LayoutDashboard, FileQuestion, Users, BarChart3,
   Settings, Plus, Play, Clock, TrendingUp, LogOut, Monitor,
-  Pencil, Presentation
+  Pencil, Presentation, UserCheck
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import QuizAssignmentModal, { type AssignmentCriteria } from "@/components/quiz/QuizAssignmentModal";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", id: "dashboard" },
