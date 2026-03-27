@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import {
   Zap, LayoutDashboard, FileQuestion, Users, BarChart3,
   Settings, Plus, Play, Clock, TrendingUp, LogOut, Monitor,
-  Pencil, Presentation, UserCheck
+  Pencil, Presentation, UserCheck, Trophy
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
