@@ -4,15 +4,17 @@ import { Input } from "@/components/ui/input";
 import {
   Zap, LayoutDashboard, FileQuestion, Users, BarChart3,
   Settings, Plus, Play, Clock, TrendingUp, LogOut, Monitor,
-  Pencil, Presentation, UserCheck
+  Pencil, Presentation, UserCheck, Trophy
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import QuizAssignmentModal, { type AssignmentCriteria } from "@/components/quiz/QuizAssignmentModal";
+import LeaderboardTab from "@/components/dashboard/LeaderboardTab";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", id: "dashboard" },
   { icon: FileQuestion, label: "Mes Quiz", id: "quizzes" },
+  { icon: Trophy, label: "Classement", id: "leaderboard" },
   { icon: Users, label: "Membres", id: "members" },
   { icon: BarChart3, label: "Statistiques", id: "stats" },
   { icon: Settings, label: "Paramètres", id: "settings" },
@@ -233,6 +235,8 @@ const Dashboard = () => {
             </div>
           </motion.div>
         )}
+
+        {activeTab === "leaderboard" && <LeaderboardTab />}
 
         {activeTab === "members" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
