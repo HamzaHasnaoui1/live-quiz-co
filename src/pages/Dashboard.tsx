@@ -14,6 +14,7 @@ import LeaderboardTab from "@/components/dashboard/LeaderboardTab";
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", id: "dashboard" },
   { icon: FileQuestion, label: "Mes Quiz", id: "quizzes" },
+  { icon: Trophy, label: "Classement", id: "leaderboard" },
   { icon: Users, label: "Membres", id: "members" },
   { icon: BarChart3, label: "Statistiques", id: "stats" },
   { icon: Settings, label: "Paramètres", id: "settings" },
