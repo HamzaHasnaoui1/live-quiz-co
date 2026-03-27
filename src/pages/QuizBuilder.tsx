@@ -64,6 +64,11 @@ const QuizBuilder = () => {
   ]);
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [showMediaPanel, setShowMediaPanel] = useState(false);
+  const [showAssignModal, setShowAssignModal] = useState(false);
+
+  const handleAssign = (criteria: AssignmentCriteria) => {
+    console.log("Quiz assigned from builder:", criteria);
+  };
 
   const addQuestion = (type: QuestionType) => {
     const newQ: Question = {
