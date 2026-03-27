@@ -237,6 +237,8 @@ const Dashboard = () => {
         )}
 
         {activeTab === "leaderboard" && <LeaderboardTab />}
+
+        {activeTab === "members" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="flex items-center justify-between mb-8">
               <h1 className="font-display text-3xl font-bold">Membres</h1>
