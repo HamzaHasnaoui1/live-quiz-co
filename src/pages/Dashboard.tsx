@@ -195,6 +195,14 @@ const Dashboard = () => {
                     >
                       <Pencil className="w-3 h-3" /> Modifier
                     </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="gap-1.5 flex-1"
+                      onClick={() => setAssignModal({ open: true, quizTitle: quiz.title })}
+                    >
+                      <UserCheck className="w-3 h-3" /> Affecter
+                    </Button>
                   </div>
                   <div className="flex gap-2 mt-2">
                     <Button
