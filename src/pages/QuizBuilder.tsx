@@ -147,6 +147,9 @@ const QuizBuilder = () => {
           />
         </div>
         <div className="flex gap-2">
+          <Button variant="outline" className="gap-1.5" onClick={() => setShowAssignModal(true)}>
+            <UserCheck className="w-4 h-4" /> Affecter
+          </Button>
           <Button variant="outline">Prévisualiser</Button>
           <Button className="shadow-glow-primary">Sauvegarder</Button>
         </div>
