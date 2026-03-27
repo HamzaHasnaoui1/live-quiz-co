@@ -436,6 +436,13 @@ const QuizBuilder = () => {
           )}
         </main>
       </div>
+
+      <QuizAssignmentModal
+        open={showAssignModal}
+        onOpenChange={setShowAssignModal}
+        quizTitle={quizTitle}
+        onAssign={handleAssign}
+      />
     </div>
   );
 };
