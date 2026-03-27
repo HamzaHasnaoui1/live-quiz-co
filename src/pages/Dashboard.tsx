@@ -4,10 +4,11 @@ import { Input } from "@/components/ui/input";
 import {
   Zap, LayoutDashboard, FileQuestion, Users, BarChart3,
   Settings, Plus, Play, Clock, TrendingUp, LogOut, Monitor,
-  Pencil, Presentation
+  Pencil, Presentation, UserCheck
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import QuizAssignmentModal, { type AssignmentCriteria } from "@/components/quiz/QuizAssignmentModal";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", id: "dashboard" },
@@ -26,6 +27,11 @@ const mockQuizzes = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [assignModal, setAssignModal] = useState<{ open: boolean; quizTitle: string }>({ open: false, quizTitle: "" });
+
+  const handleAssign = (criteria: AssignmentCriteria) => {
+    console.log("Quiz assigned with criteria:", criteria);
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -128,6 +134,9 @@ const Dashboard = () => {
                     <Button size="sm" variant="outline" className="gap-1.5" onClick={() => navigate("/quiz/new")}>
                       <Pencil className="w-3 h-3" /> Modifier
                     </Button>
+                    <Button size="sm" variant="outline" className="gap-1.5" onClick={() => setAssignModal({ open: true, quizTitle: quiz.title })}>
+                      <UserCheck className="w-3 h-3" /> Affecter
+                    </Button>
                     <Button size="sm" variant="outline" className="gap-1.5" onClick={() => navigate("/host")}>
                       <Clock className="w-3 h-3" /> Historique
                     </Button>
@@ -185,6 +194,14 @@ const Dashboard = () => {
                       onClick={() => navigate("/quiz/new")}
                     >
                       <Pencil className="w-3 h-3" /> Modifier
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="gap-1.5 flex-1"
+                      onClick={() => setAssignModal({ open: true, quizTitle: quiz.title })}
+                    >
+                      <UserCheck className="w-3 h-3" /> Affecter
                     </Button>
                   </div>
                   <div className="flex gap-2 mt-2">
@@ -311,6 +328,13 @@ const Dashboard = () => {
           </motion.div>
         )}
       </main>
+
+      <QuizAssignmentModal
+        open={assignModal.open}
+        onOpenChange={(open) => setAssignModal({ ...assignModal, open })}
+        quizTitle={assignModal.quizTitle}
+        onAssign={handleAssign}
+      />
     </div>
   );
 };

@@ -4,10 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Zap, ArrowLeft, Plus, Trash2, GripVertical,
-  CheckCircle2, HelpCircle, BarChart3, Image, Video, X
+  CheckCircle2, HelpCircle, BarChart3, Image, Video, X, UserCheck
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import QuizAssignmentModal, { type AssignmentCriteria } from "@/components/quiz/QuizAssignmentModal";
 
 type QuestionType = "multiple" | "truefalse" | "poll";
 
@@ -63,6 +64,11 @@ const QuizBuilder = () => {
   ]);
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [showMediaPanel, setShowMediaPanel] = useState(false);
+  const [showAssignModal, setShowAssignModal] = useState(false);
+
+  const handleAssign = (criteria: AssignmentCriteria) => {
+    console.log("Quiz assigned from builder:", criteria);
+  };
 
   const addQuestion = (type: QuestionType) => {
     const newQ: Question = {
@@ -141,6 +147,9 @@ const QuizBuilder = () => {
           />
         </div>
         <div className="flex gap-2">
+          <Button variant="outline" className="gap-1.5" onClick={() => setShowAssignModal(true)}>
+            <UserCheck className="w-4 h-4" /> Affecter
+          </Button>
           <Button variant="outline">Prévisualiser</Button>
           <Button className="shadow-glow-primary">Sauvegarder</Button>
         </div>
@@ -427,6 +436,13 @@ const QuizBuilder = () => {
           )}
         </main>
       </div>
+
+      <QuizAssignmentModal
+        open={showAssignModal}
+        onOpenChange={setShowAssignModal}
+        quizTitle={quizTitle}
+        onAssign={handleAssign}
+      />
     </div>
   );
 };
