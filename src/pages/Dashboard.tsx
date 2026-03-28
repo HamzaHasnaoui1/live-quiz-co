@@ -171,9 +171,14 @@ const Dashboard = () => {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="flex items-center justify-between mb-8">
               <h1 className="font-display text-3xl font-bold">Mes Quiz</h1>
-              <Button className="gap-2" onClick={() => navigate("/quiz/new")}>
-                <Plus className="w-4 h-4" /> Nouveau Quiz
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" className="gap-2" onClick={() => setCsvQuizImportOpen(true)}>
+                  <Upload className="w-4 h-4" /> Importer CSV
+                </Button>
+                <Button className="gap-2" onClick={() => navigate("/quiz/new")}>
+                  <Plus className="w-4 h-4" /> Nouveau Quiz
+                </Button>
+              </div>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {mockQuizzes.map((quiz) => (
