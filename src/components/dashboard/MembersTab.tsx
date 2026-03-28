@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "@/hooks/use-toast";
+import CSVMemberImport from "./CSVMemberImport";
 
 type MemberRole = "Admin" | "Créateur" | "Participant";
 type MemberType = "Arbitre" | "Arbitre Assistant" | "Délégué" | "Observateur";
