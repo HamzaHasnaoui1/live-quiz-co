@@ -307,6 +307,14 @@ const Dashboard = () => {
         quizTitle={assignModal.quizTitle}
         onAssign={handleAssign}
       />
+
+      <CSVQuizImport
+        open={csvQuizImportOpen}
+        onOpenChange={setCsvQuizImportOpen}
+        onImport={(quizzes) => {
+          console.log("Imported quizzes:", Object.fromEntries(quizzes));
+        }}
+      />
     </div>
   );
 };
