@@ -4,13 +4,14 @@ import { Input } from "@/components/ui/input";
 import {
   Zap, LayoutDashboard, FileQuestion, Users, BarChart3,
   Settings, Plus, Play, Clock, TrendingUp, LogOut, Monitor,
-  Pencil, Presentation, UserCheck, Trophy
+  Pencil, Presentation, UserCheck, Trophy, Upload
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import QuizAssignmentModal, { type AssignmentCriteria } from "@/components/quiz/QuizAssignmentModal";
 import LeaderboardTab from "@/components/dashboard/LeaderboardTab";
 import MembersTab from "@/components/dashboard/MembersTab";
+import CSVQuizImport from "@/components/dashboard/CSVQuizImport";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", id: "dashboard" },
@@ -31,6 +32,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("dashboard");
   const [assignModal, setAssignModal] = useState<{ open: boolean; quizTitle: string }>({ open: false, quizTitle: "" });
+  const [csvQuizImportOpen, setCsvQuizImportOpen] = useState(false);
 
   const handleAssign = (criteria: AssignmentCriteria) => {
     console.log("Quiz assigned with criteria:", criteria);
@@ -91,9 +93,14 @@ const Dashboard = () => {
                 <h1 className="font-display text-3xl font-bold">Tableau de bord</h1>
                 <p className="text-muted-foreground">Bienvenue, Jean 👋</p>
               </div>
-              <Button className="gap-2" onClick={() => navigate("/quiz/new")}>
-                <Plus className="w-4 h-4" /> Nouveau Quiz
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" className="gap-2" onClick={() => setCsvQuizImportOpen(true)}>
+                  <Upload className="w-4 h-4" /> Importer CSV
+                </Button>
+                <Button className="gap-2" onClick={() => navigate("/quiz/new")}>
+                  <Plus className="w-4 h-4" /> Nouveau Quiz
+                </Button>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -164,9 +171,14 @@ const Dashboard = () => {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="flex items-center justify-between mb-8">
               <h1 className="font-display text-3xl font-bold">Mes Quiz</h1>
-              <Button className="gap-2" onClick={() => navigate("/quiz/new")}>
-                <Plus className="w-4 h-4" /> Nouveau Quiz
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" className="gap-2" onClick={() => setCsvQuizImportOpen(true)}>
+                  <Upload className="w-4 h-4" /> Importer CSV
+                </Button>
+                <Button className="gap-2" onClick={() => navigate("/quiz/new")}>
+                  <Plus className="w-4 h-4" /> Nouveau Quiz
+                </Button>
+              </div>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {mockQuizzes.map((quiz) => (
@@ -294,6 +306,14 @@ const Dashboard = () => {
         onOpenChange={(open) => setAssignModal({ ...assignModal, open })}
         quizTitle={assignModal.quizTitle}
         onAssign={handleAssign}
+      />
+
+      <CSVQuizImport
+        open={csvQuizImportOpen}
+        onOpenChange={setCsvQuizImportOpen}
+        onImport={(quizzes) => {
+          console.log("Imported quizzes:", Object.fromEntries(quizzes));
+        }}
       />
     </div>
   );

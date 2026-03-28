@@ -29,6 +29,7 @@ import {
   Send,
   Trash2,
   Copy,
+  Upload,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -39,6 +40,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "@/hooks/use-toast";
+import CSVMemberImport from "./CSVMemberImport";
 
 type MemberRole = "Admin" | "Créateur" | "Participant";
 type MemberType = "Arbitre" | "Arbitre Assistant" | "Délégué" | "Observateur";
@@ -75,6 +77,7 @@ const MembersTab = () => {
   const [filterType, setFilterType] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [inviteOpen, setInviteOpen] = useState(false);
+  const [csvImportOpen, setCsvImportOpen] = useState(false);
 
   // Invite form state
   const [inviteEmail, setInviteEmail] = useState("");
@@ -173,9 +176,14 @@ const MembersTab = () => {
             {activeCount} actifs · {pendingCount} en attente · {inactiveCount} désactivés
           </p>
         </div>
-        <Button className="gap-2" onClick={() => setInviteOpen(true)}>
-          <Plus className="w-4 h-4" /> Inviter un membre
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" className="gap-2" onClick={() => setCsvImportOpen(true)}>
+            <Upload className="w-4 h-4" /> Importer CSV
+          </Button>
+          <Button className="gap-2" onClick={() => setInviteOpen(true)}>
+            <Plus className="w-4 h-4" /> Inviter un membre
+          </Button>
+        </div>
       </div>
 
       {/* Stats cards */}
@@ -435,6 +443,24 @@ const MembersTab = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <CSVMemberImport
+        open={csvImportOpen}
+        onOpenChange={setCsvImportOpen}
+        onImport={(imported) => {
+          const newMembers = imported.map((m) => ({
+            id: String(Date.now() + Math.random()),
+            name: m.name,
+            email: m.email,
+            role: m.role,
+            type: m.type,
+            promo: m.promo,
+            status: "pending" as const,
+            invitedAt: "À l'instant",
+          }));
+          setMembers((prev) => [...prev, ...newMembers]);
+        }}
+      />
     </motion.div>
   );
 };
