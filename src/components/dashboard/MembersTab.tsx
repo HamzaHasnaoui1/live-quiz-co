@@ -443,6 +443,24 @@ const MembersTab = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <CSVMemberImport
+        open={csvImportOpen}
+        onOpenChange={setCsvImportOpen}
+        onImport={(imported) => {
+          const newMembers = imported.map((m) => ({
+            id: String(Date.now() + Math.random()),
+            name: m.name,
+            email: m.email,
+            role: m.role,
+            type: m.type,
+            promo: m.promo,
+            status: "pending" as const,
+            invitedAt: "À l'instant",
+          }));
+          setMembers((prev) => [...prev, ...newMembers]);
+        }}
+      />
     </motion.div>
   );
 };
