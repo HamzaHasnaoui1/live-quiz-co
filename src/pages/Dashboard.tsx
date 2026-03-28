@@ -93,9 +93,14 @@ const Dashboard = () => {
                 <h1 className="font-display text-3xl font-bold">Tableau de bord</h1>
                 <p className="text-muted-foreground">Bienvenue, Jean 👋</p>
               </div>
-              <Button className="gap-2" onClick={() => navigate("/quiz/new")}>
-                <Plus className="w-4 h-4" /> Nouveau Quiz
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" className="gap-2" onClick={() => setCsvQuizImportOpen(true)}>
+                  <Upload className="w-4 h-4" /> Importer CSV
+                </Button>
+                <Button className="gap-2" onClick={() => navigate("/quiz/new")}>
+                  <Plus className="w-4 h-4" /> Nouveau Quiz
+                </Button>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
