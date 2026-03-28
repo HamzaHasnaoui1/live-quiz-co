@@ -239,52 +239,7 @@ const Dashboard = () => {
 
         {activeTab === "leaderboard" && <LeaderboardTab />}
 
-        {activeTab === "members" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="flex items-center justify-between mb-8">
-              <h1 className="font-display text-3xl font-bold">Membres</h1>
-              <Button className="gap-2">
-                <Plus className="w-4 h-4" /> Inviter
-              </Button>
-            </div>
-            <div className="bg-gradient-card rounded-xl border border-border overflow-hidden">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left p-4 text-sm text-muted-foreground font-medium">Nom</th>
-                    <th className="text-left p-4 text-sm text-muted-foreground font-medium">Email</th>
-                    <th className="text-left p-4 text-sm text-muted-foreground font-medium">Rôle</th>
-                    <th className="text-left p-4 text-sm text-muted-foreground font-medium">Statut</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { name: "Jean Dupont", email: "jean@acme.com", role: "Admin", active: true },
-                    { name: "Marie Martin", email: "marie@acme.com", role: "Créateur", active: true },
-                    { name: "Pierre Durand", email: "pierre@acme.com", role: "Participant", active: false },
-                  ].map((member, i) => (
-                    <tr key={i} className="border-b border-border last:border-0">
-                      <td className="p-4 font-medium">{member.name}</td>
-                      <td className="p-4 text-muted-foreground">{member.email}</td>
-                      <td className="p-4">
-                        <span className="px-2 py-1 rounded-full bg-primary/15 text-primary text-xs font-medium">
-                          {member.role}
-                        </span>
-                      </td>
-                      <td className="p-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          member.active ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"
-                        }`}>
-                          {member.active ? "Actif" : "Inactif"}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </motion.div>
-        )}
+        {activeTab === "members" && <MembersTab />}
 
         {activeTab === "stats" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
