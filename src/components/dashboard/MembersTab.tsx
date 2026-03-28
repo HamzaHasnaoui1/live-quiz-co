@@ -76,6 +76,7 @@ const MembersTab = () => {
   const [filterType, setFilterType] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [inviteOpen, setInviteOpen] = useState(false);
+  const [csvImportOpen, setCsvImportOpen] = useState(false);
 
   // Invite form state
   const [inviteEmail, setInviteEmail] = useState("");
