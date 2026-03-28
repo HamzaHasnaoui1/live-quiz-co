@@ -29,6 +29,7 @@ import {
   Send,
   Trash2,
   Copy,
+  Upload,
 } from "lucide-react";
 import {
   DropdownMenu,
