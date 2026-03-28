@@ -32,6 +32,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("dashboard");
   const [assignModal, setAssignModal] = useState<{ open: boolean; quizTitle: string }>({ open: false, quizTitle: "" });
+  const [csvQuizImportOpen, setCsvQuizImportOpen] = useState(false);
 
   const handleAssign = (criteria: AssignmentCriteria) => {
     console.log("Quiz assigned with criteria:", criteria);
