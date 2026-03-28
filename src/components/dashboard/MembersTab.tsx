@@ -175,9 +175,14 @@ const MembersTab = () => {
             {activeCount} actifs · {pendingCount} en attente · {inactiveCount} désactivés
           </p>
         </div>
-        <Button className="gap-2" onClick={() => setInviteOpen(true)}>
-          <Plus className="w-4 h-4" /> Inviter un membre
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" className="gap-2" onClick={() => setCsvImportOpen(true)}>
+            <Upload className="w-4 h-4" /> Importer CSV
+          </Button>
+          <Button className="gap-2" onClick={() => setInviteOpen(true)}>
+            <Plus className="w-4 h-4" /> Inviter un membre
+          </Button>
+        </div>
       </div>
 
       {/* Stats cards */}
