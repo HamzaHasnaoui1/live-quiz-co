@@ -14,13 +14,42 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
+const getInitialTheme = () => {
+  const stored = localStorage.getItem("theme");
+  if (stored) return stored;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+};
+
+const applyTheme = (theme: string) => {
+  const root = document.documentElement;
+  if (theme === "system") {
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    root.classList.toggle("dark", isDark);
+  } else {
+    root.classList.toggle("dark", theme === "dark");
+  }
+};
+
 const SettingsTab = () => {
+  const [theme, setTheme] = useState(getInitialTheme);
+  const [language, setLanguage] = useState(() => localStorage.getItem("language") || "fr");
   const [notifications, setNotifications] = useState({
     email: true,
     quizComplete: true,
     newMember: false,
     weeklyReport: true,
   });
+
+  useEffect(() => {
+    applyTheme(theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem("language", language);
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+  }, [language]);
 
   const handleSave = (section: string) => {
     toast.success(`${section} sauvegardé avec succès`);
