@@ -4,10 +4,13 @@ import { Input } from "@/components/ui/input";
 import {
   Zap, Gamepad2, Trophy, Clock, Star, LogOut,
   History, ArrowRight, Medal, TrendingUp, ChevronLeft,
-  CheckCircle2, XCircle, Eye, FileQuestion, Play, UserCheck
+  CheckCircle2, XCircle, Eye, FileQuestion, Play, UserCheck,
+  BarChart3, Settings
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import PlayerStatsTab from "@/components/player/PlayerStatsTab";
+import PlayerSettingsTab from "@/components/player/PlayerSettingsTab";
 
 interface QuizQuestion {
   question: string;
