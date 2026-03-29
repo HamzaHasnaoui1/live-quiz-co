@@ -4,10 +4,13 @@ import { Input } from "@/components/ui/input";
 import {
   Zap, Gamepad2, Trophy, Clock, Star, LogOut,
   History, ArrowRight, Medal, TrendingUp, ChevronLeft,
-  CheckCircle2, XCircle, Eye, FileQuestion, Play, UserCheck
+  CheckCircle2, XCircle, Eye, FileQuestion, Play, UserCheck,
+  BarChart3, Settings
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import PlayerStatsTab from "@/components/player/PlayerStatsTab";
+import PlayerSettingsTab from "@/components/player/PlayerSettingsTab";
 
 interface QuizQuestion {
   question: string;
@@ -71,6 +74,7 @@ const PlayerHome = () => {
   const navigate = useNavigate();
   const [pin, setPin] = useState("");
   const [selectedGame, setSelectedGame] = useState<GameHistory | null>(null);
+  const [activeTab, setActiveTab] = useState("home");
 
   const handleJoin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -226,6 +230,26 @@ const PlayerHome = () => {
             </div>
             <span className="font-display text-lg font-bold">QuizArena</span>
           </div>
+          <nav className="flex items-center gap-1">
+            {[
+              { id: "home", label: "Accueil", icon: Gamepad2 },
+              { id: "stats", label: "Statistiques", icon: BarChart3 },
+              { id: "settings", label: "Paramètres", icon: Settings },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                  activeTab === tab.id
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-muted"
+                }`}
+              >
+                <tab.icon className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">{tab.label}</span>
+              </button>
+            ))}
+          </nav>
           <div className="flex items-center gap-3">
             <div className="text-right hidden sm:block">
               <p className="text-sm font-medium">Marie Martin</p>
@@ -244,6 +268,9 @@ const PlayerHome = () => {
       </header>
 
       <main className="max-w-5xl mx-auto px-4 py-8 space-y-8">
+        {activeTab === "stats" && <PlayerStatsTab />}
+        {activeTab === "settings" && <PlayerSettingsTab />}
+        {activeTab === "home" && <div className="space-y-8">
         {/* Join Section */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
@@ -439,6 +466,7 @@ const PlayerHome = () => {
             </div>
           )}
         </motion.section>
+        </div>}
       </main>
     </div>
   );
