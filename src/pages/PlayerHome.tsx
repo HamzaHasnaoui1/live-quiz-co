@@ -74,6 +74,7 @@ const PlayerHome = () => {
   const navigate = useNavigate();
   const [pin, setPin] = useState("");
   const [selectedGame, setSelectedGame] = useState<GameHistory | null>(null);
+  const [activeTab, setActiveTab] = useState("home");
 
   const handleJoin = (e: React.FormEvent) => {
     e.preventDefault();
