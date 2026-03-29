@@ -294,25 +294,27 @@ const SettingsTab = () => {
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <Label>Thème</Label>
-                <Select defaultValue="dark">
+                <Select value={theme} onValueChange={setTheme}>
                   <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="dark">Sombre</SelectItem>
-                    <SelectItem value="light">Clair</SelectItem>
-                    <SelectItem value="system">Système</SelectItem>
+                    <SelectItem value="dark">🌙 Sombre</SelectItem>
+                    <SelectItem value="light">☀️ Clair</SelectItem>
+                    <SelectItem value="system">💻 Système</SelectItem>
                   </SelectContent>
                 </Select>
+                <p className="text-xs text-muted-foreground">Le thème est appliqué immédiatement</p>
               </div>
               <div className="space-y-2">
                 <Label>Langue</Label>
-                <Select defaultValue="fr">
+                <Select value={language} onValueChange={setLanguage}>
                   <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="fr">Français</SelectItem>
-                    <SelectItem value="en">English</SelectItem>
-                    <SelectItem value="ar">العربية</SelectItem>
+                    <SelectItem value="fr">🇫🇷 Français</SelectItem>
+                    <SelectItem value="en">🇬🇧 English</SelectItem>
+                    <SelectItem value="ar">🇸🇦 العربية</SelectItem>
                   </SelectContent>
                 </Select>
+                <p className="text-xs text-muted-foreground">La langue de l'interface sera mise à jour</p>
               </div>
               <div className="flex justify-end">
                 <Button className="gap-2" onClick={() => handleSave("Apparence")}>
