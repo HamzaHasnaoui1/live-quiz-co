@@ -466,6 +466,7 @@ const PlayerHome = () => {
             </div>
           )}
         </motion.section>
+        </div>}
       </main>
     </div>
   );
