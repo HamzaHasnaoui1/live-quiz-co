@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   Building2, User, Bell, Shield, Palette, Globe, Save, Mail, Phone, MapPin, Camera
@@ -14,13 +14,42 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
+const getInitialTheme = () => {
+  const stored = localStorage.getItem("theme");
+  if (stored) return stored;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+};
+
+const applyTheme = (theme: string) => {
+  const root = document.documentElement;
+  if (theme === "system") {
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    root.classList.toggle("dark", isDark);
+  } else {
+    root.classList.toggle("dark", theme === "dark");
+  }
+};
+
 const SettingsTab = () => {
+  const [theme, setTheme] = useState(getInitialTheme);
+  const [language, setLanguage] = useState(() => localStorage.getItem("language") || "fr");
   const [notifications, setNotifications] = useState({
     email: true,
     quizComplete: true,
     newMember: false,
     weeklyReport: true,
   });
+
+  useEffect(() => {
+    applyTheme(theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem("language", language);
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+  }, [language]);
 
   const handleSave = (section: string) => {
     toast.success(`${section} sauvegardé avec succès`);
@@ -265,25 +294,27 @@ const SettingsTab = () => {
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <Label>Thème</Label>
-                <Select defaultValue="dark">
+                <Select value={theme} onValueChange={setTheme}>
                   <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="dark">Sombre</SelectItem>
-                    <SelectItem value="light">Clair</SelectItem>
-                    <SelectItem value="system">Système</SelectItem>
+                    <SelectItem value="dark">🌙 Sombre</SelectItem>
+                    <SelectItem value="light">☀️ Clair</SelectItem>
+                    <SelectItem value="system">💻 Système</SelectItem>
                   </SelectContent>
                 </Select>
+                <p className="text-xs text-muted-foreground">Le thème est appliqué immédiatement</p>
               </div>
               <div className="space-y-2">
                 <Label>Langue</Label>
-                <Select defaultValue="fr">
+                <Select value={language} onValueChange={setLanguage}>
                   <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="fr">Français</SelectItem>
-                    <SelectItem value="en">English</SelectItem>
-                    <SelectItem value="ar">العربية</SelectItem>
+                    <SelectItem value="fr">🇫🇷 Français</SelectItem>
+                    <SelectItem value="en">🇬🇧 English</SelectItem>
+                    <SelectItem value="ar">🇸🇦 العربية</SelectItem>
                   </SelectContent>
                 </Select>
+                <p className="text-xs text-muted-foreground">La langue de l'interface sera mise à jour</p>
               </div>
               <div className="flex justify-end">
                 <Button className="gap-2" onClick={() => handleSave("Apparence")}>
