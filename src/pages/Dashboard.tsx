@@ -12,6 +12,8 @@ import QuizAssignmentModal, { type AssignmentCriteria } from "@/components/quiz/
 import LeaderboardTab from "@/components/dashboard/LeaderboardTab";
 import MembersTab from "@/components/dashboard/MembersTab";
 import CSVQuizImport from "@/components/dashboard/CSVQuizImport";
+import StatsTab from "@/components/dashboard/StatsTab";
+import SettingsTab from "@/components/dashboard/SettingsTab";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", id: "dashboard" },
@@ -253,52 +255,9 @@ const Dashboard = () => {
 
         {activeTab === "members" && <MembersTab />}
 
-        {activeTab === "stats" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h1 className="font-display text-3xl font-bold mb-8">Statistiques</h1>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-gradient-card rounded-xl border border-border p-6">
-                <h3 className="font-display font-semibold mb-4">Taux de bonnes réponses</h3>
-                <div className="flex items-end gap-2 h-40">
-                  {[65, 78, 45, 85, 72, 90, 68].map((val, i) => (
-                    <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                      <div className="w-full rounded-t-md bg-primary/80" style={{ height: `${val}%` }} />
-                      <span className="text-xs text-muted-foreground">Q{i + 1}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="bg-gradient-card rounded-xl border border-border p-6">
-                <h3 className="font-display font-semibold mb-4">Participation par session</h3>
-                <div className="flex items-end gap-2 h-40">
-                  {[12, 15, 8, 20, 18, 25, 22].map((val, i) => (
-                    <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                      <div className="w-full rounded-t-md bg-[hsl(var(--game-blue))]/80" style={{ height: `${(val / 25) * 100}%` }} />
-                      <span className="text-xs text-muted-foreground">S{i + 1}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
+        {activeTab === "stats" && <StatsTab />}
 
-        {activeTab === "settings" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h1 className="font-display text-3xl font-bold mb-8">Paramètres</h1>
-            <div className="bg-gradient-card rounded-xl border border-border p-6 max-w-lg space-y-4">
-              <div>
-                <label className="text-sm text-muted-foreground">Nom de l'entreprise</label>
-                <Input defaultValue="Acme Corp" className="mt-1" />
-              </div>
-              <div>
-                <label className="text-sm text-muted-foreground">Email de contact</label>
-                <Input defaultValue="admin@acme.com" className="mt-1" />
-              </div>
-              <Button>Sauvegarder</Button>
-            </div>
-          </motion.div>
-        )}
+        {activeTab === "settings" && <SettingsTab />}
       </main>
 
       <QuizAssignmentModal
