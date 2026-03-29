@@ -230,6 +230,26 @@ const PlayerHome = () => {
             </div>
             <span className="font-display text-lg font-bold">QuizArena</span>
           </div>
+          <nav className="flex items-center gap-1">
+            {[
+              { id: "home", label: "Accueil", icon: Gamepad2 },
+              { id: "stats", label: "Statistiques", icon: BarChart3 },
+              { id: "settings", label: "Paramètres", icon: Settings },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                  activeTab === tab.id
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-muted"
+                }`}
+              >
+                <tab.icon className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">{tab.label}</span>
+              </button>
+            ))}
+          </nav>
           <div className="flex items-center gap-3">
             <div className="text-right hidden sm:block">
               <p className="text-sm font-medium">Marie Martin</p>
