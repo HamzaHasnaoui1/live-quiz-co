@@ -12,6 +12,8 @@ import QuizAssignmentModal, { type AssignmentCriteria } from "@/components/quiz/
 import LeaderboardTab from "@/components/dashboard/LeaderboardTab";
 import MembersTab from "@/components/dashboard/MembersTab";
 import CSVQuizImport from "@/components/dashboard/CSVQuizImport";
+import StatsTab from "@/components/dashboard/StatsTab";
+import SettingsTab from "@/components/dashboard/SettingsTab";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", id: "dashboard" },
