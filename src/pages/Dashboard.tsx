@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Zap, LayoutDashboard, FileQuestion, Users, BarChart3,
-  Settings, Plus, Play, Clock, TrendingUp, LogOut, Monitor,
-  Pencil, Presentation, UserCheck, Trophy, Upload
+  Settings, LogOut, Trophy, Plus, Upload, Pencil, Play,
+  Presentation, UserCheck, Clock
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -14,6 +13,7 @@ import MembersTab from "@/components/dashboard/MembersTab";
 import CSVQuizImport from "@/components/dashboard/CSVQuizImport";
 import StatsTab from "@/components/dashboard/StatsTab";
 import SettingsTab from "@/components/dashboard/SettingsTab";
+import DashboardTab from "@/components/dashboard/DashboardTab";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", id: "dashboard" },
@@ -89,84 +89,10 @@ const Dashboard = () => {
       {/* Main content */}
       <main className="flex-1 p-8 overflow-auto">
         {activeTab === "dashboard" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="font-display text-3xl font-bold">Tableau de bord</h1>
-                <p className="text-muted-foreground">Bienvenue, Jean 👋</p>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="outline" className="gap-2" onClick={() => setCsvQuizImportOpen(true)}>
-                  <Upload className="w-4 h-4" /> Importer CSV
-                </Button>
-                <Button className="gap-2" onClick={() => navigate("/quiz/new")}>
-                  <Plus className="w-4 h-4" /> Nouveau Quiz
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-gradient-card rounded-xl border border-border p-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <FileQuestion className="w-5 h-5 text-primary" />
-                  <span className="text-sm text-muted-foreground">Quiz créés</span>
-                </div>
-                <p className="font-display text-3xl font-bold">3</p>
-              </div>
-              <div className="bg-gradient-card rounded-xl border border-border p-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <Play className="w-5 h-5 text-[hsl(var(--game-blue))]" />
-                  <span className="text-sm text-muted-foreground">Sessions jouées</span>
-                </div>
-                <p className="font-display text-3xl font-bold">20</p>
-              </div>
-              <div className="bg-gradient-card rounded-xl border border-border p-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <TrendingUp className="w-5 h-5 text-primary" />
-                  <span className="text-sm text-muted-foreground">Score moyen</span>
-                </div>
-                <p className="font-display text-3xl font-bold">75%</p>
-              </div>
-            </div>
-
-            <h2 className="font-display text-xl font-semibold mb-4">Vos quiz récents</h2>
-            <div className="space-y-3">
-              {mockQuizzes.map((quiz) => (
-                <div
-                  key={quiz.id}
-                  className="bg-gradient-card rounded-xl border border-border p-5 flex items-center justify-between hover:border-primary/30 transition-colors"
-                >
-                  <div>
-                    <h3 className="font-display font-semibold">{quiz.title}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {quiz.questions} questions · {quiz.played} sessions · Score moy. {quiz.avgScore}%
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline" className="gap-1.5" onClick={() => navigate("/quiz/new")}>
-                      <Pencil className="w-3 h-3" /> Modifier
-                    </Button>
-                    <Button size="sm" variant="outline" className="gap-1.5" onClick={() => setAssignModal({ open: true, quizTitle: quiz.title })}>
-                      <UserCheck className="w-3 h-3" /> Affecter
-                    </Button>
-                    <Button size="sm" variant="outline" className="gap-1.5" onClick={() => navigate("/host")}>
-                      <Clock className="w-3 h-3" /> Historique
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="gap-1.5 bg-secondary hover:bg-secondary/80 text-secondary-foreground"
-                      onClick={() => navigate("/host")}
-                    >
-                      <Presentation className="w-3 h-3" /> Animer
-                    </Button>
-                    <Button size="sm" className="gap-1.5" onClick={() => navigate("/play")}>
-                      <Play className="w-3 h-3" /> Lancer
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+          <DashboardTab
+            onOpenCsvImport={() => setCsvQuizImportOpen(true)}
+            onOpenAssignModal={(title) => setAssignModal({ open: true, quizTitle: title })}
+          />
         )}
 
         {activeTab === "quizzes" && (
@@ -204,37 +130,21 @@ const Dashboard = () => {
                     {quiz.played} sessions · Score moy. {quiz.avgScore}%
                   </p>
                   <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="gap-1.5 flex-1"
-                      onClick={() => navigate("/quiz/new")}
-                    >
+                    <Button size="sm" variant="outline" className="gap-1.5 flex-1" onClick={() => navigate("/quiz/new")}>
                       <Pencil className="w-3 h-3" /> Modifier
                     </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="gap-1.5 flex-1"
-                      onClick={() => setAssignModal({ open: true, quizTitle: quiz.title })}
-                    >
+                    <Button size="sm" variant="outline" className="gap-1.5 flex-1" onClick={() => setAssignModal({ open: true, quizTitle: quiz.title })}>
                       <UserCheck className="w-3 h-3" /> Affecter
                     </Button>
                   </div>
                   <div className="flex gap-2 mt-2">
-                    <Button
-                      size="sm"
-                      className="gap-1.5 flex-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground"
-                      onClick={() => navigate("/host")}
-                    >
+                    <Button size="sm" className="gap-1.5 flex-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground" onClick={() => navigate("/host")}>
                       <Presentation className="w-3 h-3" /> Animer
                     </Button>
                     <Button size="sm" className="gap-1.5 flex-1" onClick={() => navigate("/play")}>
                       <Play className="w-3 h-3" /> Lancer
                     </Button>
                   </div>
-
-                  {/* Tooltip explanation */}
                   <div className="mt-3 pt-3 border-t border-border space-y-1">
                     <p className="text-[10px] text-muted-foreground flex items-center gap-1.5">
                       <Presentation className="w-2.5 h-2.5 text-secondary" />
@@ -252,11 +162,8 @@ const Dashboard = () => {
         )}
 
         {activeTab === "leaderboard" && <LeaderboardTab />}
-
         {activeTab === "members" && <MembersTab />}
-
         {activeTab === "stats" && <StatsTab />}
-
         {activeTab === "settings" && <SettingsTab />}
       </main>
 
