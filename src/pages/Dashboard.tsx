@@ -22,11 +22,6 @@ const sidebarItems = [
   { icon: Settings, label: "Paramètres", id: "settings" },
 ];
 
-const mockQuizzes = [
-  { id: 1, title: "Sécurité informatique", questions: 12, played: 5, avgScore: 78 },
-  { id: 2, title: "Onboarding RH", questions: 8, played: 12, avgScore: 85 },
-  { id: 3, title: "Culture d'entreprise", questions: 15, played: 3, avgScore: 62 },
-];
 
 const Dashboard = () => {
   const navigate = useNavigate();
