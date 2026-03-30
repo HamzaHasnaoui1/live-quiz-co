@@ -14,6 +14,7 @@ import CSVQuizImport from "@/components/dashboard/CSVQuizImport";
 import StatsTab from "@/components/dashboard/StatsTab";
 import SettingsTab from "@/components/dashboard/SettingsTab";
 import DashboardTab from "@/components/dashboard/DashboardTab";
+import QuizzesTab from "@/components/dashboard/QuizzesTab";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", id: "dashboard" },
