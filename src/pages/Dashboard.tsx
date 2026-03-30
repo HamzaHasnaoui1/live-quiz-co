@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Zap, LayoutDashboard, FileQuestion, Users, BarChart3,
-  Settings, LogOut, Trophy, Plus, Upload, Pencil, Play,
-  Presentation, UserCheck, Clock
+  Settings, LogOut, Trophy
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import QuizAssignmentModal, { type AssignmentCriteria } from "@/components/quiz/QuizAssignmentModal";
 import LeaderboardTab from "@/components/dashboard/LeaderboardTab";
 import MembersTab from "@/components/dashboard/MembersTab";
@@ -14,6 +11,7 @@ import CSVQuizImport from "@/components/dashboard/CSVQuizImport";
 import StatsTab from "@/components/dashboard/StatsTab";
 import SettingsTab from "@/components/dashboard/SettingsTab";
 import DashboardTab from "@/components/dashboard/DashboardTab";
+import QuizzesTab from "@/components/dashboard/QuizzesTab";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", id: "dashboard" },
@@ -24,11 +22,6 @@ const sidebarItems = [
   { icon: Settings, label: "Paramètres", id: "settings" },
 ];
 
-const mockQuizzes = [
-  { id: 1, title: "Sécurité informatique", questions: 12, played: 5, avgScore: 78 },
-  { id: 2, title: "Onboarding RH", questions: 8, played: 12, avgScore: 85 },
-  { id: 3, title: "Culture d'entreprise", questions: 15, played: 3, avgScore: 62 },
-];
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -96,69 +89,10 @@ const Dashboard = () => {
         )}
 
         {activeTab === "quizzes" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="flex items-center justify-between mb-8">
-              <h1 className="font-display text-3xl font-bold">Mes Quiz</h1>
-              <div className="flex gap-2">
-                <Button variant="outline" className="gap-2" onClick={() => setCsvQuizImportOpen(true)}>
-                  <Upload className="w-4 h-4" /> Importer CSV
-                </Button>
-                <Button className="gap-2" onClick={() => navigate("/quiz/new")}>
-                  <Plus className="w-4 h-4" /> Nouveau Quiz
-                </Button>
-              </div>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {mockQuizzes.map((quiz) => (
-                <div
-                  key={quiz.id}
-                  className="bg-gradient-card rounded-xl border border-border p-6 hover:border-primary/30 transition-colors group"
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="font-display text-lg font-semibold">{quiz.title}</h3>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={() => navigate("/quiz/new")}
-                    >
-                      <Pencil className="w-3.5 h-3.5" />
-                    </Button>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-1">{quiz.questions} questions</p>
-                  <p className="text-xs text-muted-foreground mb-4">
-                    {quiz.played} sessions · Score moy. {quiz.avgScore}%
-                  </p>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline" className="gap-1.5 flex-1" onClick={() => navigate("/quiz/new")}>
-                      <Pencil className="w-3 h-3" /> Modifier
-                    </Button>
-                    <Button size="sm" variant="outline" className="gap-1.5 flex-1" onClick={() => setAssignModal({ open: true, quizTitle: quiz.title })}>
-                      <UserCheck className="w-3 h-3" /> Affecter
-                    </Button>
-                  </div>
-                  <div className="flex gap-2 mt-2">
-                    <Button size="sm" className="gap-1.5 flex-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground" onClick={() => navigate("/host")}>
-                      <Presentation className="w-3 h-3" /> Animer
-                    </Button>
-                    <Button size="sm" className="gap-1.5 flex-1" onClick={() => navigate("/play")}>
-                      <Play className="w-3 h-3" /> Lancer
-                    </Button>
-                  </div>
-                  <div className="mt-3 pt-3 border-t border-border space-y-1">
-                    <p className="text-[10px] text-muted-foreground flex items-center gap-1.5">
-                      <Presentation className="w-2.5 h-2.5 text-secondary" />
-                      <span><strong>Animer</strong> — Projeter sur grand écran, contrôler le déroulement</span>
-                    </p>
-                    <p className="text-[10px] text-muted-foreground flex items-center gap-1.5">
-                      <Play className="w-2.5 h-2.5 text-primary" />
-                      <span><strong>Lancer</strong> — Démarrer une session, les joueurs rejoignent via PIN</span>
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+          <QuizzesTab
+            onOpenCsvImport={() => setCsvQuizImportOpen(true)}
+            onOpenAssignModal={(title) => setAssignModal({ open: true, quizTitle: title })}
+          />
         )}
 
         {activeTab === "leaderboard" && <LeaderboardTab />}
