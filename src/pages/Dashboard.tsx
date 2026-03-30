@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Zap, LayoutDashboard, FileQuestion, Users, BarChart3,
-  Settings, LogOut, Trophy, Plus, Upload, Pencil, Play,
-  Presentation, UserCheck, Clock
+  Settings, LogOut, Trophy
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import QuizAssignmentModal, { type AssignmentCriteria } from "@/components/quiz/QuizAssignmentModal";
 import LeaderboardTab from "@/components/dashboard/LeaderboardTab";
 import MembersTab from "@/components/dashboard/MembersTab";
